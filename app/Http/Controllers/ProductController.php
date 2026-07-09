@@ -96,7 +96,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $product->update($request->all());
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $product->update($request->only(['name', 'description', 'price', 'stock']));
+
         return response()->json([
             'status' => true,
             'message' => 'Product updated successfully',

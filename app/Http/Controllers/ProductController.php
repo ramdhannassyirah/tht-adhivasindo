@@ -34,12 +34,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = Product::create($request->all());
-        return response()->json([
-            'status' => true,
-            'message' => 'Product created successfully',
-            'data' => $product,
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
         ]);
+
+        $product = Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json(
+            [
+                'status' => true,
+                'message' => 'Product created successfully',
+                'data' => $product,
+            ],
+            201,
+        );
     }
 
     /**

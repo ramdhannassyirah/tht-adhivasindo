@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    protected $fillable = ['name', 'description', 'price', 'stock'];
+    protected $fillable = ['name', 'description', 'price', 'stock', 'user_id'];
 
     public function scopeSearch($query, $keyword)
     {
@@ -17,5 +17,10 @@ class Product extends Model
         }
 
         return $query->where('name', 'like', "%{$keyword}%")->orWhere('description', 'like', "%{$keyword}%");
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

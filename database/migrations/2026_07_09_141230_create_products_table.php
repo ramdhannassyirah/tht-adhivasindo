@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->nullable()->onDelete('set null');
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 10, 2);

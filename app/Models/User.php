@@ -43,4 +43,9 @@ class User extends Authenticatable implements JWTSubject
             'role' => $this->role,
         ];
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

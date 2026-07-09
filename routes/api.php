@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
-], function ($router) {
+], function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -16,6 +16,11 @@ Route::group([
 
 });
 
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{product}/show', [ProductController::class, 'show']);
+
 Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    Route::put('/products/{product}', [ProductController::class, 'update']);
     Route::post('/products', [ProductController::class, 'store']);
+    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 });

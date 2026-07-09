@@ -8,10 +8,14 @@ class Product extends Model
 {
     protected $table = 'products';
 
-    protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'stock',
-    ];
+    protected $fillable = ['name', 'description', 'price', 'stock'];
+
+    public function scopeSearch($query, $keyword)
+    {
+        if (!$keyword) {
+            return $query;
+        }
+
+        return $query->where('name', 'like', "%{$keyword}%")->orWhere('description', 'like', "%{$keyword}%");
+    }
 }

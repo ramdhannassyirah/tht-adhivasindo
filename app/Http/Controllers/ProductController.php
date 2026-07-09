@@ -10,9 +10,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        $products = Product::search($request->search)->latest()->paginate(10);
+
         return response()->json([
             'status' => true,
             'message' => 'All products retrieved successfully',

@@ -46,6 +46,17 @@ php artisan migrate
 
 ---
 
+# Storage Setup
+
+Buat symbolic link untuk storage:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+
 # 🔐 JWT Configuration
 
 Generate JWT secret:

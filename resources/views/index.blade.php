@@ -25,6 +25,10 @@
                 Produk Terbaru
             </h2>
 
+            <template x-if="products.length === 0 && !loading">
+                <p class="text-gray-500 text-center py-10">Tidak ada produk yang tersedia.</p>
+            </template>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <template x-if="loading">
@@ -58,19 +62,20 @@
 
 
             </div>
-            <div class="flex justify-center items-center gap-4 mt-10">
+            <template x-if="products.length > 0">
+                <div class="flex justify-center items-center gap-4 mt-10">
+                    <button @click="fetchProducts(prevPage)" :disabled="!prevPage"
+                        class="px-5 py-2 rounded-lg cursor-pointer border hover:bg-gray-100 disabled:opacity-50">
+                        ← Prev
+                    </button>
 
-                <button @click="fetchProducts(prevPage)" :disabled="!prevPage"
-                    class="px-5 py-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50">
-                    ← Prev
-                </button>
+                    <button @click="fetchProducts(nextPage)" :disabled="!nextPage"
+                        class="px-5 py-2 rounded-lg cursor-pointer bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50">
+                        Next →
+                    </button>
 
-                <button @click="fetchProducts(nextPage)" :disabled="!nextPage"
-                    class="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50">
-                    Next →
-                </button>
-
-            </div>
+                </div>
+            </template>
 
         </div>
     </section>

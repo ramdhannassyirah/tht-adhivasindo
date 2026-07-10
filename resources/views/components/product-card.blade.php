@@ -1,7 +1,7 @@
 <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden flex flex-col">
 
     <div class="overflow-hidden">
-        <img :src="product.image_url ?? 'https://via.placeholder.com/300'"
+        <img :src="product.image_url ?? 'https://placehold.co/600x400?text=Broken'" alt="Product Image"
             class="w-full h-48 object-cover hover:scale-105 transition duration-300">
     </div>
 
@@ -18,7 +18,7 @@
                 x-text="'Rp ' + formatRupiah(product.price)"></p>
 
             <button @click="buy(product)"
-                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                class="w-full bg-blue-600 text-white py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition">
                 Beli Sekarang
             </button>
         </div>

@@ -1,18 +1,26 @@
 <x-layouts.app>
 
-    <section class="bg-gray-100 py-16">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">
-                Selamat Datang di Toko Kami
+    <section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-20 text-white">
+        <div class="  px-6 text-center">
+
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                Belanja Mudah & Cepat
             </h1>
-            <p class="text-gray-600 ">
+
+            <p class="text-lg text-blue-100 mb-6">
                 Temukan produk terbaik dengan harga terjangkau
             </p>
+
+            <a href="#products"
+                class="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Lihat Produk
+            </a>
+
         </div>
     </section>
 
     <section id="products" class="py-16">
-        <div x-data="productList()" x-init="fetchProducts()" class="max-w-7xl mx-auto px-6">
+        <div x-data="productList()" x-init="fetchProducts()" class="max-w-6xl mx-auto px-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-8 text-center">
                 Produk Terbaru
             </h2>
@@ -45,35 +53,23 @@
 
 
                 <template x-for="product in products" :key="product.id">
-                    <div class="bg-white rounded-lg shadow p-4">
-                        <img :src="product.image_url ?? 'https://via.placeholder.com/300'"
-                            class="rounded mb-4 w-full h-48 object-cover">
-
-                        <h3 class="font-semibold text-lg" x-text="product.name"></h3>
-
-                        <p class="text-gray-500 text-sm mb-2" x-text="product.description ?? 'Tidak ada deskripsi'"></p>
-
-                        <p class="text-blue-600 font-bold mb-3" x-text="'Rp ' + formatRupiah(product.price)"></p>
-
-                        <button @click="buy(product)"
-                            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-                            Beli
-                        </button>
-                    </div>
+                    <x-product-card />
                 </template>
 
 
             </div>
-            <div class="flex justify-center gap-4 mt-6">
+            <div class="flex justify-center items-center gap-4 mt-10">
+
                 <button @click="fetchProducts(prevPage)" :disabled="!prevPage"
-                    class="px-4 py-2 bg-gray-200 cursor-pointer rounded disabled:bg-gray-400 disabled:cursor-not-allowed">
-                    Prev
+                    class="px-5 py-2 rounded-lg border hover:bg-gray-100 disabled:opacity-50">
+                    ← Prev
                 </button>
 
                 <button @click="fetchProducts(nextPage)" :disabled="!nextPage"
-                    class="px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer">
-                    Next
+                    class="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50">
+                    Next →
                 </button>
+
             </div>
 
         </div>

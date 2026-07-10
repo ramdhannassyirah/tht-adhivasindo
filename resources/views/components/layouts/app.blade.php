@@ -24,20 +24,27 @@
     <header class="bg-white shadow-sm">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
 
-            <!-- Logo / Title -->
             <h1 class="text-lg font-semibold text-gray-700">
                 {{ config('app.name', 'Laravel') }}
             </h1>
 
-            <!-- Menu -->
             @if (Route::has('login'))
-                <nav x-data="{ isLogin: localStorage.getItem('token') }" class="flex items-center gap-4">
+                <nav x-data="{ isLogin: localStorage.getItem('token'), user: JSON.parse(localStorage.getItem('user')) }" class="flex items-center gap-4">
 
+                    <template x-if="isLogin && user.role === 'admin'">
+                        <div class="flex items-center gap-4">
+                            <a href="/dashboard"
+                                class="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm hover:bg-blue-600 transition">
+                                Dashboard
+                            </a>
+                           
+                        </div>
+                    </template>
                     <template x-if="isLogin">
-                        <a href="/dashboard"
-                            class="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm hover:bg-blue-600 transition">
-                            Dashboard
-                        </a>
+                             <a href="#" @click.prevent="logout()"
+                                class="px-4 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 transition">
+                                Logout
+                            </a>
                     </template>
 
                     <template x-if="!isLogin">
@@ -54,8 +61,8 @@
     </header>
 
     <!-- Content -->
-    <main class="max-w-6xl mx-auto px-4 py-8">
-        <div class="p-6">
+    <main class="">
+        <div class="">
             {{ $slot }}
         </div>
     </main>
@@ -69,6 +76,13 @@
 
 
     @stack('scripts')
+    <script>
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+    </script>
 
 </body>
 

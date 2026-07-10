@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -14,7 +16,38 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
+    }
+
+    /**
+     * Register a new user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'role' => 'customer', // Set default role as customer
+        ]);
+
+        $token = auth()->login($user);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User registered successfully',
+            'user' => $user,
+            'access_token' => $token
+        ], 201);
     }
 
     /**
